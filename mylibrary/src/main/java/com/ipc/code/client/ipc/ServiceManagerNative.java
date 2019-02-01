@@ -1,6 +1,7 @@
 package com.ipc.code.client.ipc;
 
 import com.ipc.code.client.core.VirtualCore;
+import com.ipc.code.helper.utils.VLog;
 import com.ipc.code.server.IServiceFetcher;
 import com.ipc.code.server.ServiceCache;
 
@@ -52,8 +53,31 @@ public class ServiceManagerNative {
                 e.printStackTrace();
             }
         }
-        Log.e(TAG, "GetService("+name+") return null.");
+        VLog.e(TAG, "GetService("+name+") return null.");
         return null;
+    }
+
+    public static void addService(String name, IBinder service) {
+        IServiceFetcher fetcher = getServiceFetcher();
+        if (fetcher != null) {
+            try {
+                fetcher.addService(name, service);
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+
+    public static void removeService(String name) {
+        IServiceFetcher fetcher = getServiceFetcher();
+        if (fetcher != null) {
+            try {
+                fetcher.removeService(name);
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     private static void linkBinderDied(final IBinder binder) {

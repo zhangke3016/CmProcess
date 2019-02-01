@@ -10,7 +10,6 @@ import android.content.Context;
 import android.os.IBinder;
 import android.os.Looper;
 import android.os.Process;
-import android.util.Log;
 
 import java.util.List;
 
