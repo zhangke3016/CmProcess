@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">IpcService</string>
+    <string name="engine_process_name">:v</string>
+</resources>
