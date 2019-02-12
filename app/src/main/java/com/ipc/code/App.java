@@ -1,10 +1,11 @@
 package com.ipc.code;
 
-import com.ipc.code.client.core.VirtualCore;
 
 import android.app.Application;
 import android.content.Context;
 import android.util.Log;
+
+
 
 /**
  * @author zk
@@ -18,10 +19,7 @@ public class App extends Application{
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
         Log.d("App", "attachBaseContext: ");
-        try {
-            VirtualCore.get().startup(base);
-        } catch (Throwable throwable) {
-            throwable.printStackTrace();
-        }
+        VCore.init(base);
     }
+
 }

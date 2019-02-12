@@ -31,6 +31,7 @@ public final class VirtualCore {
     private boolean isStartUp;
 
     private Context context;
+
     private ProcessType processType;
 
     private VirtualCore() {
@@ -44,7 +45,7 @@ public final class VirtualCore {
         return context;
     }
 
-    public void startup(Context context) throws Throwable {
+    public void startup(Context context) {
         if (!isStartUp) {
             if (Looper.myLooper() != Looper.getMainLooper()) {
                 throw new IllegalStateException("VirtualCore.startup() must called in main thread.");
@@ -55,6 +56,11 @@ public final class VirtualCore {
                 @Override
                 public void join(String serverName, IBinder binder) {
                     ServiceCache.addService(serverName, binder);
+                }
+
+                @Override
+                public IBinder removeService(String serverName) {
+                    return ServiceCache.removeService(serverName);
                 }
 
                 @Override
@@ -72,9 +78,10 @@ public final class VirtualCore {
         String processName = getProcessName(context, Process.myPid());
         if (processName.endsWith(SERVER_PROCESS_NAME)) {
             processType = ProcessType.Server;
-        }else if (processName.equals(context.getPackageName())){
-            processType = ProcessType.Main;
         }
+        /*else if (processName.equals(context.getPackageName())){
+            processType = ProcessType.Main;
+        }*/
 
     }
 
@@ -100,15 +107,7 @@ public final class VirtualCore {
      * @return If the current process is the server.
      */
     public boolean isServerProcess() {
-//        Log.e(TAG, "isServerProcess: "+processType.name() );
         return ProcessType.Server == processType;
-    }
-
-    /**
-     * @return If the current process is used to VA.
-     */
-    public boolean isVAppProcess() {
-        return ProcessType.VAppClient == processType;
     }
 
     /**
@@ -119,17 +118,17 @@ public final class VirtualCore {
          * Server process
          */
         Server,
-        /**
-         * Virtual app process
-         */
-        VAppClient,
-        /**
-         * Main process
-         */
-        Main,
-        /**
-         * Child process
-         */
-        CHILD
+//        /**
+//         * Virtual app process
+//         */
+//        VAppClient,
+//        /**
+//         * Main process
+//         */
+//        Main,
+//        /**
+//         * Child process
+//         */
+//        CHILD
     }
 }

@@ -31,6 +31,14 @@ public class IPCBus {
         sCache.join(serverInterface.getInterfaceName(), binder);
     }
 
+    public static void register(ServerInterface serverInterface, TransformBinder binder) {
+        sCache.join(serverInterface.getInterfaceName(), binder);
+    }
+
+    public static void removeService(String serverName) {
+        sCache.removeService(serverName);
+    }
+
     public static <T> T get(Class<?> interfaceClass) {
         checkInitialized();
         ServerInterface serverInterface = new ServerInterface(interfaceClass);

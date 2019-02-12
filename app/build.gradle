@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-
+apply plugin: 'android-aspectjx'
 android {
     compileSdkVersion 28
     defaultConfig {
@@ -26,4 +26,8 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation project(':mylibrary')
+    implementation project(':common')
+    implementation project(':plugin1')
+    implementation 'org.aspectj:aspectjrt:1.8.9'
+    implementation 'com.jakewharton.scalpel:scalpel:1.1.2'
 }

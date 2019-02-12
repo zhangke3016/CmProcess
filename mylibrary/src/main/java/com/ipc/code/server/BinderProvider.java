@@ -1,11 +1,6 @@
 package com.ipc.code.server;
 
 import com.ipc.code.client.core.VirtualCore;
-import com.ipc.code.helper.ipcbus.IPCBus;
-import com.ipc.code.server.accounts.VAccountManagerService;
-import com.ipc.code.server.accounts.VPhoneManagerService;
-import com.ipc.code.server.interfaces.IAccountManager;
-import com.ipc.code.server.interfaces.IPhoneManager;
 
 import android.content.ContentProvider;
 import android.content.ContentValues;
@@ -36,10 +31,6 @@ public class BinderProvider extends ContentProvider{
         if (!VirtualCore.get().isStartup()) {
             return true;
         }
-        VAccountManagerService.systemReady();
-        IPCBus.register(IAccountManager.class, VAccountManagerService.get());
-        VPhoneManagerService.systemReady();
-        IPCBus.register(IPhoneManager.class, VPhoneManagerService.get());
         return true;
     }
 
