@@ -11,7 +11,7 @@ import android.os.RemoteException;
  * @Description：
  * @other 修改历史：
  */
-public class VirtualRuntime {
+public class VRuntime {
 
     public static boolean isArt() {
         return System.getProperty("java.vm.version").startsWith("2");

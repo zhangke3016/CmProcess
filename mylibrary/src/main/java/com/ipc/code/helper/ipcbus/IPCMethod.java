@@ -79,7 +79,7 @@ public class IPCMethod {
             reply.writeException(e);
         }
     }
-
+    // find asInterface method
     private static Method findAsInterfaceMethod(Class<?> type) {
         for (Class<?> innerClass : type.getDeclaredClasses()) {
             // public static class Stub extends Binder implements IType
