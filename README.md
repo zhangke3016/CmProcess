@@ -17,7 +17,7 @@ A more convenient solution for cross-process communication in Android.
   VCore.getCore().registerService(IPayManager.class, this);
   VCore.getCore().unregisterService(IPayManager.class);
 ```
-3. Get services at any time, anywhere
+3. Get services at any time, anywhere, any process
 ```
   IPayManager service = VCore.getCore().getService(IPayManager.class);
 ```
