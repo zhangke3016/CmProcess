@@ -12,12 +12,18 @@ A more convenient solution for cross-process communication in Android.
         VCore.init(base);
     }
 ```
-2. Register/Unregister your service at any time, anywhere
+2. Define interfaces and implement ,eg:
+```
+public interface IPayManager {
+    String pay(int count);
+}
+```
+3. Register/Unregister your service at any time, anywhere
 ```
   VCore.getCore().registerService(IPayManager.class, this);
   VCore.getCore().unregisterService(IPayManager.class);
 ```
-3. Get services at any time, anywhere, any process
+4. Get services at any time, anywhere, any process
 ```
   IPayManager service = VCore.getCore().getService(IPayManager.class);
 ```
