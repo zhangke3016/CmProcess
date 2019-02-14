@@ -6,17 +6,17 @@ A more convenient solution for cross-process communication in Android.
 
 1. Init in your application:
 ```
-@Override
-    protected void attachBaseContext(Context base) {
-        super.attachBaseContext(base);
-        VCore.init(base);
-    }
+  @Override
+  protected void attachBaseContext(Context base) {
+      super.attachBaseContext(base);
+      VCore.init(base);
+  }
 ```
 2. Define interfaces and implement ,eg:
 ```
-public interface IPayManager {
-    String pay(int count);
-}
+  public interface IPayManager {
+     String pay(int count);
+  }
 ```
 3. Register/Unregister your service at any time, anywhere
 ```
