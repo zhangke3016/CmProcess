@@ -4,7 +4,7 @@ A more convenient solution for cross-process communication in Android.
 
 ## Use
 
-1. Application:
+1. init in your application:
 ```
 @Override
     protected void attachBaseContext(Context base) {
