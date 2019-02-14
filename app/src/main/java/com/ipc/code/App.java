@@ -18,7 +18,6 @@ public class App extends Application implements IPayManager{
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
-        Log.d("App", "attachBaseContext: ");
         VCore.init(base);
         VCore.getCore().registerService(IPayManager.class, this);
     }

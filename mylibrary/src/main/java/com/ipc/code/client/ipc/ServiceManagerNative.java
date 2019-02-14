@@ -32,7 +32,7 @@ public class ServiceManagerNative {
                 Context context = VirtualCore.get().getContext();
                 Bundle response = new ProviderCall.Builder(context, SERVICE_CP_AUTH).methodName("@").call();
                 if (response != null) {
-                    IBinder binder = BundleCompat.getBinder(response, "_VA_|_binder_");
+                    IBinder binder = BundleCompat.getBinder(response, "_VM_|_binder_");
                     linkBinderDied(binder);
                     sFetcher = IServiceFetcher.Stub.asInterface(binder);
                 }

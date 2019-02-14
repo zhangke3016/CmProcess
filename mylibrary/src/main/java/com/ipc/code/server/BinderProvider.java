@@ -69,7 +69,7 @@ public class BinderProvider extends ContentProvider{
     public Bundle call(@NonNull String method, @Nullable String arg, @Nullable Bundle extras) {
         if ("@".equals(method)) {
             Bundle bundle = new Bundle();
-            BundleCompat.putBinder(bundle, "_VA_|_binder_", mServiceFetcher);
+            BundleCompat.putBinder(bundle, "_VM_|_binder_", mServiceFetcher);
             return bundle;
         }
         if ("register".equals(method)) {
