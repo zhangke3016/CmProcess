@@ -37,7 +37,7 @@ public class VCore {
         return !getAppName(base).equals(base.getPackageName()+":v");
     }
 
-    public VCore addService(Class<?> interfaceClass, Object server){
+    public VCore registerService(Class<?> interfaceClass, Object server){
 
         if (VirtualCore.get().getContext() == null){
             return this;
@@ -58,7 +58,7 @@ public class VCore {
         return this;
     }
 
-    public VCore removeService(Class<?> interfaceClass){
+    public VCore unregisterService(Class<?> interfaceClass){
         IPCBus.removeService(interfaceClass.getName());
         ServiceManagerNative.removeService(interfaceClass.getName());
         return this;

@@ -1,2 +1,18 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.ipc.code"/>
+          package="com.ipc.code">
+    <application>
+        <provider
+            android:name="com.ipc.code.server.BinderProvider"
+            android:authorities="${applicationId}.virtual.service.BinderProvider"
+            android:exported="false"
+            android:process="@string/engine_process_name" />
+
+        <service
+            android:name="com.ipc.code.server.DaemonService"
+            android:process="@string/engine_process_name" />
+
+        <service
+            android:name="com.ipc.code.server.DaemonService$InnerService"
+            android:process="@string/engine_process_name" />
+    </application>
+</manifest>

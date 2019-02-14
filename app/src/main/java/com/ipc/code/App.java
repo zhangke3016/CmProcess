@@ -13,13 +13,18 @@ import android.util.Log;
  * @Description：
  * @other 修改历史：
  */
-public class App extends Application{
+public class App extends Application implements IPayManager{
 
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
         Log.d("App", "attachBaseContext: ");
         VCore.init(base);
+        VCore.getCore().registerService(IPayManager.class, this);
     }
 
+    @Override
+    public String pay(int count) {
+        return count + 100 + "";
+    }
 }
