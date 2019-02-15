@@ -32,6 +32,7 @@ public class IPCBus {
     }
 
     public static void removeService(String serverName) {
+        checkInitialized();
         sCache.removeService(serverName);
     }
 
@@ -48,14 +49,17 @@ public class IPCBus {
 
 
     public static void registerLocal(Class<?> interfaceClass, Object server) {
+        checkInitialized();
         sCache.joinLocal(interfaceClass.getName(), server);
     }
 
     public static void unregisterLocal(Class<?> interfaceClass) {
+        checkInitialized();
         sCache.removeLocalService(interfaceClass.getName());
     }
 
     public static <T> T getLocalService(Class<T> interfaceClass) {
+       checkInitialized();
        return (T) sCache.queryLocal(interfaceClass.getName());
     }
 
