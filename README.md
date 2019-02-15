@@ -58,6 +58,7 @@ A more convenient solution for cross-process communication in Android.
     VCore.getCore().subscribe("key", new EventCallback() {
         @Override
         public void onEventCallBack(Bundle event) {
+            //main thread
             String name = event.getString("name");
             Log.e("TAG", "onEventCallBack: " + name + " " + (Looper.myLooper() == Looper.getMainLooper()));
         }
