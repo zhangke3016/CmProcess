@@ -26,15 +26,11 @@ public final class VirtualCore {
 
     private static final String TAG = VirtualCore.class.getSimpleName();
 
-    private static final String SERVER_PROCESS_NAME = ":vm";
-
     private static VirtualCore gCore = new VirtualCore();
 
     private boolean isStartUp;
 
     private Context context;
-
-    private ProcessType processType;
 
     private VirtualCore() {
     }
@@ -90,56 +86,12 @@ public final class VirtualCore {
                     ServiceManagerNative.post(key,bundle);
                 }
             });
-            detectProcessType();
             ServiceManagerNative.addEventListener(AppUtil.getProcessName(context, Process.myPid()), EventReceiver.getInstance());
             isStartUp = true;
         }
     }
 
-    private void detectProcessType() {
-
-        String processName = AppUtil.getProcessName(context, Process.myPid());
-        if (processName.endsWith(SERVER_PROCESS_NAME)) {
-            processType = ProcessType.Server;
-        }
-        /*else if (processName.equals(context.getPackageName())){
-            processType = ProcessType.Main;
-        }*/
-
-    }
-
-
-
     public boolean isStartup() {
         return isStartUp;
-    }
-
-    /**
-     * @return If the current process is the server.
-     */
-    public boolean isServerProcess() {
-        return ProcessType.Server == processType;
-    }
-
-    /**
-     * Process type
-     */
-    private enum ProcessType {
-        /**
-         * Server process
-         */
-        Server,
-//        /**
-//         * Virtual app process
-//         */
-//        VAppClient,
-//        /**
-//         * Main process
-//         */
-//        Main,
-//        /**
-//         * Child process
-//         */
-//        CHILD
     }
 }
