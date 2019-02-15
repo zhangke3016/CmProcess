@@ -1,4 +1,4 @@
-package com.ipc.code.helper.ipcbus;
+package com.cmprocess.ipc.helper.ipcbus;
 
 import android.os.IBinder;
 

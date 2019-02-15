@@ -18,7 +18,7 @@
             </intent-filter>
         </activity>
 
-
+        <activity android:name=".TestActivity" android:process=":vc"/>
     </application>
 
 </manifest>

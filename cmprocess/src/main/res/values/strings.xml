@@ -1,4 +1,4 @@
 <resources>
     <string name="app_name">CmProcess</string>
-    <string name="engine_process_name">:v</string>
+    <string name="engine_process_name">:vm</string>
 </resources>

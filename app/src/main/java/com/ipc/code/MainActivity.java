@@ -1,8 +1,12 @@
 package com.ipc.code;
 
 
+import com.cmprocess.ipc.VCore;
+
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
@@ -14,12 +18,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        VCore.getCore().unregisterService(IPayManager.class);
+        IPayManager service = VCore.getCore().getLocalService(IPayManager.class);
+        Log.e("TAG", "onCreate: " + (service == null));
 
-        IPayManager service = VCore.getCore().getService(IPayManager.class);
-        TextView textview = findViewById(R.id.tv);
-        textview.setText(service.pay(5000));
+        startActivity(new Intent(this,TestActivity.class));
     }
-
 
 }
