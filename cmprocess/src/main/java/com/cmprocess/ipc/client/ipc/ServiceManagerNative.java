@@ -2,8 +2,6 @@ package com.cmprocess.ipc.client.ipc;
 
 import com.cmprocess.ipc.client.core.VirtualCore;
 import com.cmprocess.ipc.server.IServiceFetcher;
-import com.cmprocess.ipc.server.ServiceCache;
-import com.ipc.code.helper.utils.VLog;
 
 import android.content.Context;
 import android.os.Bundle;
