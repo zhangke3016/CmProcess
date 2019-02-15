@@ -1,7 +1,7 @@
 # CmProcess [![platform](https://img.shields.io/badge/platform-android-brightgreen.svg)](https://developer.android.com/index.html)
 
 A more convenient solution for cross-process communication in Android.No need to use aidl.
-
+[中文介绍]()
 ## Use
 
 1. Init in your application:
@@ -16,6 +16,7 @@ A more convenient solution for cross-process communication in Android.No need to
 ```
   public interface IPayManager {
      String pay(int count);
+     //if use remote service, the callback interface must be the provided 'IPCCallback`
      String pay(int count, IPCCallback callBack);
   }
 ```

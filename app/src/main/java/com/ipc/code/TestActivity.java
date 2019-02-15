@@ -49,6 +49,12 @@ public class TestActivity extends AppCompatActivity {
                 Log.e("TAG", "onEventCallBack: " + name + " " + (Looper.myLooper() == Looper.getMainLooper()));
             }
         });
-        VCore.getCore().unsubscribe("key");
+        VCore.getCore().subscribe("key", new EventCallback() {
+            @Override
+            public void onEventCallBack(Bundle event) {
+                String name = event.getString("name");
+                Log.e("TAG", "onEventCallBack2: " + name + " " + (Looper.myLooper() == Looper.getMainLooper()));
+            }
+        });
     }
 }
