@@ -23,8 +23,6 @@ public class EventReceiver extends IEventReceiver.Stub {
 
     @Override
     public void onEventReceive(String key,Bundle event) {
-//        Parcelable event1 = event.getParcelable("event");
-        Class<? extends Parcelable> aClass = event.getClass();
         EventCenter.onEventReceive(key,event);
     }
 }
