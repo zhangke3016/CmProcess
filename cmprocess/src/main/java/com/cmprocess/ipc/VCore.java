@@ -131,11 +131,10 @@ public class VCore {
 
     /**
      * Remove determined event listeners
-     * @param key
      * @param eventCallback
      */
-    public void unsubscribe(String key, EventCallback eventCallback){
-        EventCenter.unsubscribe(key,eventCallback);
+    public void unsubscribe(EventCallback eventCallback){
+        EventCenter.unsubscribe(eventCallback);
     }
 
     /**

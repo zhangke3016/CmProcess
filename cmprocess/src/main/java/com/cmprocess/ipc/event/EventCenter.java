@@ -5,9 +5,11 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.SparseArray;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -20,7 +22,7 @@ public class EventCenter {
 
     private static final Handler sHandler = new Handler(Looper.getMainLooper());
 
-    private static ConcurrentHashMap<String, List<EventCallback>> subscribers = new ConcurrentHashMap<>();
+    private static ConcurrentHashMap<String, List<WeakReference<EventCallback>>> subscribers = new ConcurrentHashMap<>();
 
     private EventCenter() {}
 
@@ -30,11 +32,11 @@ public class EventCenter {
      * @param callback
      */
     public static void subscribe(String key, EventCallback callback) {
-        List<EventCallback> eventCallbacks = subscribers.get(key);
+        List<WeakReference<EventCallback>> eventCallbacks = subscribers.get(key);
         if (eventCallbacks == null){
             eventCallbacks = new ArrayList<>(5);
         }
-        eventCallbacks.add(callback);
+        eventCallbacks.add(new WeakReference<EventCallback>(callback));
         subscribers.put(key, eventCallbacks);
     }
 
@@ -48,12 +50,18 @@ public class EventCenter {
 
     /**
      * Remove determined event listeners
-     * @param key
      * @param callback
      */
-    public static void unsubscribe(String key,EventCallback callback) {
-        List<EventCallback> eventCallbacks = subscribers.get(key);
-        eventCallbacks.remove(callback);
+    public static void unsubscribe(EventCallback callback) {
+        for (Map.Entry<String, List<WeakReference<EventCallback>>> entry : subscribers.entrySet()) {
+            List<WeakReference<EventCallback>> listeners = entry.getValue();
+            for (WeakReference<EventCallback> weakRef : listeners) {
+                if (callback == weakRef.get()) {
+                    listeners.remove(weakRef);
+                    break;
+                }
+            }
+        }
     }
 
     public static void onEventReceive(String key, final Bundle event) {
@@ -61,15 +69,21 @@ public class EventCenter {
             return;
         }
         if (key != null) {
-            List<EventCallback> messageCallbacks = subscribers.get(key);
+            List<WeakReference<EventCallback>> messageCallbacks = subscribers.get(key);
             if (messageCallbacks != null) {
-                for (final EventCallback eventCallback:messageCallbacks){
-                    sHandler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            eventCallback.onEventCallBack(event);
-                        }
-                    });
+                for (int i = messageCallbacks.size() - 1; i >= 0; --i) {
+                    final WeakReference<EventCallback> eventCallback = messageCallbacks.get(i);
+                    final EventCallback ec = eventCallback.get();
+                    if (ec != null){
+                        sHandler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                ec.onEventCallBack(event);
+                            }
+                        });
+                    }else {
+                        messageCallbacks.remove(i);
+                    }
                 }
             }
         }
