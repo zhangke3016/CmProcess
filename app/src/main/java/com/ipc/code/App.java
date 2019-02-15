@@ -20,35 +20,14 @@ import android.util.Log;
  * @Description：
  * @other 修改历史：
  */
-public class App extends Application implements IPayManager{
+public class App extends Application {
 
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
         VCore.init(base);
-        VCore.getCore().registerService(IPayManager.class, this);
+
     }
 
-    @Override
-    public String pay(int count) {
-        return count + 100 + "";
-    }
 
-    @Override
-    public void pay(final int count, final IPCCallback callBack) {
-
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                SystemClock.sleep(2000);
-                Bundle bundle = new Bundle();
-                bundle.putString("pay", count + 100 + "");
-                try {
-                    callBack.onSuccess(bundle);
-                } catch (RemoteException e) {
-                    e.printStackTrace();
-                }
-            }
-        }).start();
-    }
 }

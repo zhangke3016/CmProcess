@@ -3,14 +3,14 @@ package com.cmprocess.ipc;
 
 import com.cmprocess.ipc.client.core.VirtualCore;
 import com.cmprocess.ipc.client.ipc.ServiceManagerNative;
+import com.cmprocess.ipc.event.EventCallback;
+import com.cmprocess.ipc.event.EventCenter;
 import com.cmprocess.ipc.helper.ipcbus.IPCBus;
+import com.cmprocess.ipc.helper.utils.AppUtil;
 
-import android.app.ActivityManager;
 import android.content.Context;
+import android.os.Bundle;
 import android.os.IBinder;
-
-import java.util.Iterator;
-import java.util.List;
 
 /**
  * @author zk
@@ -19,6 +19,8 @@ import java.util.List;
  * @other 修改历史：
  */
 public class VCore {
+
+    private static final String SERVER_PROCESS_NAME = ":vm";
 
     private static final VCore V_CORE = new VCore();
 
@@ -33,7 +35,7 @@ public class VCore {
     }
 
     public static boolean isCanInit(Context base){
-        return !getAppName(base).equals(base.getPackageName()+":vm");
+        return !AppUtil.getAppName(base).equals(base.getPackageName() + SERVER_PROCESS_NAME);
     }
 
     /**
@@ -119,26 +121,39 @@ public class VCore {
     }
 
     /**
-     * Get the name of the current process, generally the package name of the current app.
-     *
-     * @param context Current context
-     * @return Return the name of the process
+     * Subscription listener
+     * @param key
+     * @param eventCallback
      */
-    private static String getAppName(Context context) {
-        int pid = android.os.Process.myPid(); // Returns the identifier of this process
-        ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-        List list = activityManager.getRunningAppProcesses();
-        Iterator i = list.iterator();
-        while (i.hasNext()) {
-            ActivityManager.RunningAppProcessInfo info = (ActivityManager.RunningAppProcessInfo) (i.next());
-            try {
-                if (info.pid == pid) {
-                    return info.processName;
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        return null;
+    public void subscribe(String key, EventCallback eventCallback){
+        EventCenter.subscribe(key,eventCallback);
     }
+
+    /**
+     * Remove determined event listeners
+     * @param key
+     * @param eventCallback
+     */
+    public void unsubscribe(String key, EventCallback eventCallback){
+        EventCenter.unsubscribe(key,eventCallback);
+    }
+
+    /**
+     * Remove key all event callback listeners
+     * @param key
+     */
+    public void unsubscribe(String key){
+        EventCenter.unsubscribe(key);
+    }
+
+    /**
+     * send data
+     * @param key
+     * @param event
+     */
+    public void post(String key,Bundle event){
+        IPCBus.post(key,event);
+    }
+
+
 }

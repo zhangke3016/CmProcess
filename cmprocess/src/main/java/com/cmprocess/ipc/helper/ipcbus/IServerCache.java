@@ -1,5 +1,6 @@
 package com.cmprocess.ipc.helper.ipcbus;
 
+import android.os.Bundle;
 import android.os.IBinder;
 
 /**
@@ -11,8 +12,9 @@ import android.os.IBinder;
 public interface IServerCache {
     void join(String serverName, IBinder binder);
     void joinLocal(String serverName, Object object);
-    IBinder removeService(String serverName);
-    Object removeLocalService(String serverName);
+    void removeService(String serverName);
+    void removeLocalService(String serverName);
     IBinder query(String serverName);
     Object queryLocal(String serverName);
+    void post(String key,Bundle bundle);
 }

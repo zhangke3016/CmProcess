@@ -2,8 +2,10 @@ package com.ipc.code;
 
 import com.cmprocess.ipc.VCore;
 import com.cmprocess.ipc.callback.BaseCallback;
+import com.cmprocess.ipc.event.EventCallback;
 
 import android.os.Bundle;
+import android.os.Looper;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.TextView;
@@ -25,10 +27,12 @@ public class TestActivity extends AppCompatActivity {
         final TextView textview = findViewById(R.id.tv);
         if (service != null){
             service.pay(5000, new BaseCallback() {
-
                 @Override
                 public void onSucceed(Bundle result) {
                     textview.setText(result.getString("pay"));
+                    Bundle bundle = new Bundle();
+                    bundle.putString("name", "DoDo");
+                    VCore.getCore().post("key",bundle);
                 }
 
                 @Override
@@ -37,5 +41,14 @@ public class TestActivity extends AppCompatActivity {
                 }
             });
         }
+
+        VCore.getCore().subscribe("key", new EventCallback() {
+            @Override
+            public void onEventCallBack(Bundle event) {
+                String name = event.getString("name");
+                Log.e("TAG", "onEventCallBack: " + name + " " + (Looper.myLooper() == Looper.getMainLooper()));
+            }
+        });
+        VCore.getCore().unsubscribe("key");
     }
 }

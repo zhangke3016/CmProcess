@@ -1,5 +1,6 @@
 package com.cmprocess.ipc.helper.ipcbus;
 
+import android.os.Bundle;
 import android.os.IBinder;
 
 import java.lang.reflect.Proxy;
@@ -63,4 +64,8 @@ public class IPCBus {
        return (T) sCache.queryLocal(interfaceClass.getName());
     }
 
+    public static void post(String key,Bundle event) {
+        checkInitialized();
+        sCache.post(key,event);
+    }
 }

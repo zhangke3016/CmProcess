@@ -52,7 +52,6 @@ public class ServiceManagerNative {
                 e.printStackTrace();
             }
         }
-        VLog.e(TAG, "GetService("+name+") return null.");
         return null;
     }
 
@@ -65,7 +64,28 @@ public class ServiceManagerNative {
                 e.printStackTrace();
             }
         }
+    }
 
+    public static void addEventListener(String name, IBinder service) {
+        IServiceFetcher fetcher = getServiceFetcher();
+        if (fetcher != null) {
+            try {
+                fetcher.addEventListener(name, service);
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static void post(String key,Bundle bundle) {
+        IServiceFetcher fetcher = getServiceFetcher();
+        if (fetcher != null) {
+            try {
+                fetcher.post(key,bundle);
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public static void removeService(String name) {

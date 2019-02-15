@@ -1,6 +1,7 @@
 package com.cmprocess.ipc.server;
 
 import com.cmprocess.ipc.client.core.VirtualCore;
+import com.cmprocess.ipc.helper.ipcbus.IPCInvocationBridge;
 
 import android.content.ContentProvider;
 import android.content.ContentValues;
@@ -13,6 +14,8 @@ import android.os.RemoteException;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.BundleCompat;
+
+import java.lang.reflect.Proxy;
 
 /**
  * @author zk
@@ -72,9 +75,6 @@ public class BinderProvider extends ContentProvider{
             BundleCompat.putBinder(bundle, "_VM_|_binder_", mServiceFetcher);
             return bundle;
         }
-        if ("register".equals(method)) {
-
-        }
         return null;
     }
 
@@ -95,9 +95,30 @@ public class BinderProvider extends ContentProvider{
         }
 
         @Override
+        public void addEventListener(String name, IBinder service) throws RemoteException {
+            if (name != null && service != null) {
+                ServiceCache.addEventListener(name, service);
+            }
+        }
+
+        @Override
         public void removeService(String name) throws RemoteException {
             if (name != null) {
                 ServiceCache.removeService(name);
+            }
+        }
+
+        @Override
+        public void removeEventListener(String name) throws RemoteException {
+            if (name != null) {
+                ServiceCache.removeEventListener(name);
+            }
+        }
+
+        @Override
+        public void post(String key,Bundle result) throws RemoteException {
+            if (result != null){
+                ServiceCache.sendEvent(key,result);
             }
         }
     }

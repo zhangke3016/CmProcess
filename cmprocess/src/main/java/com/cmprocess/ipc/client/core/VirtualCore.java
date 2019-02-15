@@ -2,17 +2,18 @@ package com.cmprocess.ipc.client.core;
 
 
 import com.cmprocess.ipc.client.ipc.ServiceManagerNative;
+import com.cmprocess.ipc.event.EventReceiver;
 import com.cmprocess.ipc.helper.ipcbus.IPCBus;
 import com.cmprocess.ipc.helper.ipcbus.IServerCache;
+import com.cmprocess.ipc.helper.utils.AppUtil;
+import com.cmprocess.ipc.server.IEventReceiver;
 import com.cmprocess.ipc.server.ServiceCache;
 
-import android.app.ActivityManager;
 import android.content.Context;
+import android.os.Bundle;
 import android.os.IBinder;
 import android.os.Looper;
 import android.os.Process;
-
-import java.util.List;
 
 /**
  * @author zk
@@ -56,7 +57,7 @@ public final class VirtualCore {
             IPCBus.initialize(new IServerCache() {
                 @Override
                 public void join(String serverName, IBinder binder) {
-                    ServiceCache.addService(serverName, binder);
+                    ServiceManagerNative.addService(serverName, binder);
                 }
 
                 @Override
@@ -65,13 +66,13 @@ public final class VirtualCore {
                 }
 
                 @Override
-                public IBinder removeService(String serverName) {
-                    return ServiceCache.removeService(serverName);
+                public void removeService(String serverName) {
+                    ServiceManagerNative.removeService(serverName);
                 }
 
                 @Override
-                public Object removeLocalService(String serverName) {
-                    return ServiceCache.removeLocalService(serverName);
+                public void removeLocalService(String serverName) {
+                     ServiceCache.removeLocalService(serverName);
                 }
 
                 @Override
@@ -83,15 +84,21 @@ public final class VirtualCore {
                 public Object queryLocal(String serverName) {
                     return ServiceCache.getLocalService(serverName);
                 }
+
+                @Override
+                public void post(String key,Bundle bundle) {
+                    ServiceManagerNative.post(key,bundle);
+                }
             });
             detectProcessType();
+            ServiceManagerNative.addEventListener(AppUtil.getProcessName(context, Process.myPid()), EventReceiver.getInstance());
             isStartUp = true;
         }
     }
 
     private void detectProcessType() {
 
-        String processName = getProcessName(context, Process.myPid());
+        String processName = AppUtil.getProcessName(context, Process.myPid());
         if (processName.endsWith(SERVER_PROCESS_NAME)) {
             processType = ProcessType.Server;
         }
@@ -101,19 +108,7 @@ public final class VirtualCore {
 
     }
 
-    public static String getProcessName(Context cxt, int pid) {
-        ActivityManager am = (ActivityManager) cxt.getSystemService(Context.ACTIVITY_SERVICE);
-        List<ActivityManager.RunningAppProcessInfo> runningApps = am.getRunningAppProcesses();
-        if (runningApps == null) {
-            return null;
-        }
-        for (ActivityManager.RunningAppProcessInfo procInfo : runningApps) {
-            if (procInfo.pid == pid) {
-                return procInfo.processName;
-            }
-        }
-        return null;
-    }
+
 
     public boolean isStartup() {
         return isStartUp;
