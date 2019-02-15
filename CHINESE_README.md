@@ -1,11 +1,10 @@
 # CmProcess [![platform](https://img.shields.io/badge/platform-android-brightgreen.svg)](https://developer.android.com/index.html)
 
-A more convenient solution for cross-process communication in Android.No need to use aidl.
-[中文文档](CHINESE_README.md)
+更方便更简洁的Android进程通信方案，无需进行bindService()操作,不用定义Service,也不需要定义aidl。
+支持IPC级的Callback，并且支持跨进程的事件总线。
 
-## Add dependency
-
-1. Add it in your root build.gradle at the end of repositories:
+## 接入
+1. 在全局build里添加仓库
 ```groovy
     allprojects {
                 repositories {
@@ -14,16 +13,16 @@ A more convenient solution for cross-process communication in Android.No need to
         }
     }
 ```
-2. Add the dependency:
+2. 在app的build里添加依赖:
 ```groovy
     dependencies {
         implementation 'com.github.zhangke3016:CmProcess:1.0.0'
     }
 ```
 
-## Use
+## 使用
 
-1. Init in your application:
+1. 在Application的attachBaseContext方法中初始化:
 ```
   @Override
   protected void attachBaseContext(Context base) {
@@ -31,39 +30,43 @@ A more convenient solution for cross-process communication in Android.No need to
       VCore.init(base);
   }
 ```
-2. Define interfaces and implement ,the interface parameter type must be a primitive data type or a serializable/Parcelable type.eg:
+2. 定义对外提供服务功能的接口和实现，
+   如果注册本地服务，参数以及回调接口没有限制；
+   如果注册远程服务，参数类型必须为基本数据类型或者可序列化类型(serializable/parcelable),并且异步回调接口需要使用提供的'IPCCallback`。
 ```
   public interface IPayManager {
      String pay(int count);
-     //if use remote service, the callback interface must be the provided 'IPCCallback`
+     //远程服务调用，异步回调接口需要使用提供的'IPCCallback`。
      String pay(int count, IPCCallback callBack);
   }
 ```
-3. Register/Unregister your service at any time, anywhere
+3. 注册或者反注册服务，可在任意进程调用；注册的进程本地服务需要在本进程取消注册。
 ```
-  //register local + remote service
+  //注册本地 + 远程服务
   VCore.getCore().registerService(IPayManager.class, this);
-  //unregister local + remote service
+  //取消注册本地 + 远程服务
   VCore.getCore().unregisterService(IPayManager.class);
-  //register local service
+  
+  //注册本地服务
   VCore.getCore().registerLocalService(IPayManager.class, this);
-  //unregister local service
+  //取消注册本地服务
   VCore.getCore().unregisterLocalService(IPayManager.class);
 ```
-4. Get services at any time, anywhere, any process
+4. 可在任意进程通过接口类型获取服务调用。
 ```
   IPayManager service = VCore.getCore().getService(IPayManager.class);
-  //get local service
+  //获取本地服务
   //IPayManager service = VCore.getCore().getLocalService(IPayManager.class);
-  //note service may be null if no service found
+  //注意：如果服务未注册时，service为null
   if(service != null){
-    //Synchronous call.
+    //同步调用.
     String message = service.pay(5000);
-    //Asynchronous call. note: use remote service, the callback interface must be the provided 'IPCCallback`
+    
+    //异步回调.
     service.pay(5000, new BaseCallback() {
          @Override
          public void onSucceed(Bundle result) {
-             //Main thread
+             //Main thread 回调结果在主线程
          }
     
          @Override
@@ -73,8 +76,9 @@ A more convenient solution for cross-process communication in Android.No need to
      });
   }
 ```
-5. Event subscription and post
+5. 事件的发布与订阅
 ```java
+    //订阅事件   可在任意进程的多个位置订阅
     VCore.getCore().subscribe("key", new EventCallback() {
         @Override
         public void onEventCallBack(Bundle event) {
@@ -84,14 +88,12 @@ A more convenient solution for cross-process communication in Android.No need to
         }
     });
     
-    //post:
+    //发布事件  发布事件后 多个进程注册的EventCallback会同时回调:
     Bundle bundle = new Bundle();
     bundle.putString("name", "DoDo");
     VCore.getCore().post("key",bundle);
     
-    //unsubscribe 
+    //取消订阅 
     VCore.getCore().unsubscribe("key");
 ```
-
-
 
