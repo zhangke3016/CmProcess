@@ -6,7 +6,7 @@ A more convenient solution for cross-process communication in Android.No need to
 
 ## Add dependency
 
-1. Add it in your root build.gradle at the end of repositories:
+##### 1. Add it in your root build.gradle at the end of repositories:
 ```groovy
     allprojects {
                 repositories {
@@ -15,7 +15,7 @@ A more convenient solution for cross-process communication in Android.No need to
         }
     }
 ```
-2. Add the dependency:
+##### 2. Add the dependency:
 ```groovy
     dependencies {
         implementation 'com.github.zhangke3016:CmProcess:1.0.3'
@@ -24,7 +24,7 @@ A more convenient solution for cross-process communication in Android.No need to
 
 ## Use
 
-1. Init in your application:
+##### 1. Init in your application:
 ```java
   @Override
   protected void attachBaseContext(Context base) {
@@ -32,7 +32,7 @@ A more convenient solution for cross-process communication in Android.No need to
       VCore.init(base);
   }
 ```
-2. Define interfaces and implement ,the interface parameter type must be a primitive data type or a serializable/Parcelable type.eg:
+##### 2. Define interfaces and implement ,the interface parameter type must be a primitive data type or a serializable/Parcelable type.eg:
 ```java
   public interface IPayManager {
      String pay(int count);
@@ -40,7 +40,7 @@ A more convenient solution for cross-process communication in Android.No need to
      String pay(int count, IPCCallback callBack);
   }
 ```
-3. Register/Unregister your service at any time, anywhere
+##### 3. Register/Unregister your service at any time, anywhere
 ```java
   //register local + remote service
   VCore.getCore().registerService(IPayManager.class, this);
@@ -51,7 +51,7 @@ A more convenient solution for cross-process communication in Android.No need to
   //unregister local service
   VCore.getCore().unregisterLocalService(IPayManager.class);
 ```
-4. Get services at any time, anywhere, any process
+##### 4. Get services at any time, anywhere, any process
 ```java
   IPayManager service = VCore.getCore().getService(IPayManager.class);
   //get local service
@@ -87,7 +87,7 @@ A more convenient solution for cross-process communication in Android.No need to
      })
   }
 ```
-5. Event subscription and post
+##### 5. Event subscription and post
 ```java
     VCore.getCore().subscribe("key", new EventCallback() {
         @Override
