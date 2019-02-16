@@ -25,7 +25,7 @@ A more convenient solution for cross-process communication in Android.No need to
 ## Use
 
 1. Init in your application:
-```
+```java
   @Override
   protected void attachBaseContext(Context base) {
       super.attachBaseContext(base);
@@ -33,7 +33,7 @@ A more convenient solution for cross-process communication in Android.No need to
   }
 ```
 2. Define interfaces and implement ,the interface parameter type must be a primitive data type or a serializable/Parcelable type.eg:
-```
+```java
   public interface IPayManager {
      String pay(int count);
      //if use remote service, the callback interface must be the provided 'IPCCallback`
@@ -41,7 +41,7 @@ A more convenient solution for cross-process communication in Android.No need to
   }
 ```
 3. Register/Unregister your service at any time, anywhere
-```
+```java
   //register local + remote service
   VCore.getCore().registerService(IPayManager.class, this);
   //unregister local + remote service
@@ -52,7 +52,7 @@ A more convenient solution for cross-process communication in Android.No need to
   VCore.getCore().unregisterLocalService(IPayManager.class);
 ```
 4. Get services at any time, anywhere, any process
-```
+```java
   IPayManager service = VCore.getCore().getService(IPayManager.class);
   //get local service
   //IPayManager service = VCore.getCore().getLocalService(IPayManager.class);
