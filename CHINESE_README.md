@@ -62,7 +62,7 @@
     //同步调用.
     String message = service.pay(5000);
     
-    //异步回调.
+    //异步回调. 推荐使用提供的 BaseCallback 已将回调结果切换至主线程
     service.pay(5000, new BaseCallback() {
          @Override
          public void onSucceed(Bundle result) {
@@ -74,6 +74,18 @@
              //Main thread
          }
      });
+     //或者
+     service.pay(5000, new IPCCallback.Stub() {
+         @Override
+         public void onSuccess(Bundle bundle) throws RemoteException {
+             // binder thread
+         }
+         
+         @Override
+         public void onFail(String s) throws RemoteException {
+         
+         }
+     })
   }
 ```
 5. 事件的发布与订阅

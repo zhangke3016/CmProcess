@@ -61,6 +61,7 @@ A more convenient solution for cross-process communication in Android.No need to
     //Synchronous call.
     String message = service.pay(5000);
     //Asynchronous call. note: use remote service, the callback interface must be the provided 'IPCCallback`
+    //recommended use 'BaseCallback'
     service.pay(5000, new BaseCallback() {
          @Override
          public void onSucceed(Bundle result) {
@@ -72,6 +73,18 @@ A more convenient solution for cross-process communication in Android.No need to
              //Main thread
          }
      });
+     //or
+     service.pay(5000, new IPCCallback.Stub() {
+          @Override
+          public void onSuccess(Bundle bundle) throws RemoteException {
+              // binder thread
+          }
+          
+          @Override
+          public void onFail(String s) throws RemoteException {
+          
+          }
+     })
   }
 ```
 5. Event subscription and post
