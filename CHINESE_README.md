@@ -1,6 +1,6 @@
 # CmProcess [![platform](https://img.shields.io/badge/platform-android-brightgreen.svg)](https://developer.android.com/index.html)
 
-更方便更简洁的Android进程通信方案，无需进行bindService()操作,不用定义Service,也不需要定义aidl。
+更方便更简洁的Android进程通信方案，无需进行bindService()操作，不用定义Service，也不需要定义aidl。
 支持IPC级的Callback，并且支持跨进程的事件总线。
 
 ## 接入
