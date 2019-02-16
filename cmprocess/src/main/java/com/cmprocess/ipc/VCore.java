@@ -34,7 +34,7 @@ public class VCore {
         return V_CORE;
     }
 
-    public static boolean isCanInit(Context base){
+    private static boolean isCanInit(Context base){
         return !AppUtil.getAppName(base).equals(base.getPackageName() + SERVER_PROCESS_NAME);
     }
 
