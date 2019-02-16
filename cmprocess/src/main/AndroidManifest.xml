@@ -3,7 +3,7 @@
     <application>
         <provider
             android:name="com.cmprocess.ipc.server.BinderProvider"
-            android:authorities="${applicationId}.virtual.service.BinderProvider"
+            android:authorities="${applicationId}.cmprocess.service.BinderProvider"
             android:exported="false"
             android:process="@string/engine_process_name" />
 

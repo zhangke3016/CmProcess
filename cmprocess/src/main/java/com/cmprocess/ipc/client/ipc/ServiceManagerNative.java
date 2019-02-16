@@ -17,9 +17,9 @@ import android.support.v4.app.BundleCompat;
  */
 public class ServiceManagerNative {
 
-    public static final String SERVICE_DEF_AUTH = "virtual.service.BinderProvider";
+    public static final String SERVICE_DEF_AUTH = "cmprocess.service.BinderProvider";
     private static final String TAG = ServiceManagerNative.class.getSimpleName();
-    public static String SERVICE_CP_AUTH = "virtual.service.BinderProvider";
+    public static String SERVICE_CP_AUTH = "cmprocess.service.BinderProvider";
 
     private static IServiceFetcher sFetcher;
 

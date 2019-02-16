@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity implements IPayManager{
         VCore.getCore().subscribe("key", new EventCallback() {
             @Override
             public void onEventCallBack(Bundle event) {
-                Log.e("TAG", "onEventCallBack: "+(Looper.myLooper() == Looper.getMainLooper()) );
+            Log.e("TAG", "onEventCallBack: "+(Looper.myLooper() == Looper.getMainLooper()) );
             }
         });
         startActivity(new Intent(this,TestActivity.class));
