@@ -67,11 +67,9 @@ public class IPCMethod {
                 if (converters[i] != null) {
                     parameters[i] = converters[i].convert(parameters[i]);
                 }
-            }
-        }
-        for (int i = 0; i < parameters.length; i++) {
-            if (parameters[i] instanceof IBinder){
-                parameters[i] = IPCCallback.Stub.asInterface(((IBinder)parameters[i]));
+                if (parameters[i] instanceof IBinder){
+                    parameters[i] = IPCCallback.Stub.asInterface(((IBinder)parameters[i]));
+                }
             }
         }
         try {
