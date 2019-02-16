@@ -6,7 +6,7 @@ A more convenient solution for cross-process communication in Android.No need to
 
 ## Add dependency
 
-##### 1. Add it in your root build.gradle at the end of repositories:
+##### 1. Add it in your root build.gradle at the end of repositories
 ```groovy
     allprojects {
                 repositories {
@@ -15,7 +15,7 @@ A more convenient solution for cross-process communication in Android.No need to
         }
     }
 ```
-##### 2. Add the dependency:
+##### 2. Add the dependency
 ```groovy
     dependencies {
         implementation 'com.github.zhangke3016:CmProcess:1.0.3'
@@ -24,7 +24,7 @@ A more convenient solution for cross-process communication in Android.No need to
 
 ## Use
 
-##### 1. Init in your application:
+##### 1. Init in your application
 ```java
   @Override
   protected void attachBaseContext(Context base) {
