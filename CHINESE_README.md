@@ -16,7 +16,7 @@
 ##### 2. 在app的build里添加依赖
 ```groovy
     dependencies {
-        implementation 'com.github.zhangke3016:CmProcess:1.0.3'
+        implementation 'com.github.zhangke3016:CmProcess:1.0.4'
     }
 ```
 
