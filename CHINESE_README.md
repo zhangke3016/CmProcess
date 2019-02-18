@@ -19,7 +19,14 @@
         implementation 'com.github.zhangke3016:CmProcess:1.0.5'
     }
 ```
-
+如与项目已有v7包冲突，如此引入：
+```groovy
+    dependencies {
+        implementation ('com.github.zhangke3016:CmProcess:1.0.5') {
+            exclude group: 'com.android.support'
+        }    
+    }
+```
 ## 使用
 ##### 1. 在app的build.gradle文件中配置 `注册中心` 所在的进程名称，我们所有远程服务均是通过注册中心获取
 ```
