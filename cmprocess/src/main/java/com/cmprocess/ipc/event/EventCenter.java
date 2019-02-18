@@ -31,7 +31,7 @@ public class EventCenter {
      * @param key
      * @param callback
      */
-    public static void subscribe(String key, EventCallback callback) {
+    public static synchronized void subscribe(String key, EventCallback callback) {
         List<WeakReference<EventCallback>> eventCallbacks = subscribers.get(key);
         if (eventCallbacks == null){
             eventCallbacks = new ArrayList<>(5);
@@ -44,7 +44,7 @@ public class EventCenter {
      * Remove key all event callback listeners
      * @param key
      */
-    public static void unsubscribe(String key) {
+    public static synchronized void unsubscribe(String key) {
         subscribers.remove(key);
     }
 
@@ -52,7 +52,7 @@ public class EventCenter {
      * Remove determined event listeners
      * @param callback
      */
-    public static void unsubscribe(EventCallback callback) {
+    public static synchronized void unsubscribe(EventCallback callback) {
         for (Map.Entry<String, List<WeakReference<EventCallback>>> entry : subscribers.entrySet()) {
             List<WeakReference<EventCallback>> listeners = entry.getValue();
             for (WeakReference<EventCallback> weakRef : listeners) {
@@ -64,7 +64,7 @@ public class EventCenter {
         }
     }
 
-    public static void onEventReceive(String key, final Bundle event) {
+    public static synchronized void onEventReceive(String key, final Bundle event) {
         if (event == null){
             return;
         }

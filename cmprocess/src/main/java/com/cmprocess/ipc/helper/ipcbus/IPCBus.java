@@ -44,7 +44,6 @@ public class IPCBus {
         if (binder == null) {
             return null;
         }
-        //noinspection unchecked
         return (T) Proxy.newProxyInstance(interfaceClass.getClassLoader(), new Class[]{interfaceClass}, new IPCInvocationBridge(serverInterface, binder));
     }
 
