@@ -24,7 +24,14 @@ A more convenient solution for cross-process communication in Android.No need to
 
 ## Use
 
-##### 1. Init in your application
+##### 1. Configured in the app's build.gradle file,`:vm` is process name for the registry
+    ```
+        defaultConfig {
+            ...
+            manifestPlaceholders = [ V_CMPROCESS_NAME:":vm" ]
+        }
+    ```
+##### 2. Init in your application
 ```java
   @Override
   protected void attachBaseContext(Context base) {
@@ -32,7 +39,7 @@ A more convenient solution for cross-process communication in Android.No need to
       VCore.init(base);
   }
 ```
-##### 2. Define interfaces and implement ,the interface parameter type must be a primitive data type or a serializable/Parcelable type.eg:
+##### 3. Define interfaces and implement ,the interface parameter type must be a primitive data type or a serializable/Parcelable type.eg:
 ```java
   public interface IPayManager {
      String pay(int count);
@@ -40,7 +47,7 @@ A more convenient solution for cross-process communication in Android.No need to
      String pay(int count, IPCCallback callBack);
   }
 ```
-##### 3. Register/Unregister your service at any time, anywhere
+##### 4. Register/Unregister your service at any time, anywhere
 ```java
   //register local + remote service
   VCore.getCore().registerService(IPayManager.class, this);
@@ -51,7 +58,7 @@ A more convenient solution for cross-process communication in Android.No need to
   //unregister local service
   VCore.getCore().unregisterLocalService(IPayManager.class);
 ```
-##### 4. Get services at any time, anywhere, any process
+##### 5. Get services at any time, anywhere, any process
 ```java
   IPayManager service = VCore.getCore().getService(IPayManager.class);
   //get local service
@@ -87,7 +94,7 @@ A more convenient solution for cross-process communication in Android.No need to
      })
   }
 ```
-##### 5. Event subscription and post
+##### 6. Event subscription and post
 ```java
     VCore.getCore().subscribe("key", new EventCallback() {
         @Override

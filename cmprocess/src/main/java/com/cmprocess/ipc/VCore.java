@@ -20,22 +20,14 @@ import android.os.IBinder;
  */
 public class VCore {
 
-    private static final String SERVER_PROCESS_NAME = ":vm";
-
     private static final VCore V_CORE = new VCore();
 
     public static void init(Context context){
-        if (isCanInit(context)){
-            VirtualCore.get().startup(context);
-        }
+        VirtualCore.get().startup(context);
     }
 
     public static VCore getCore(){
         return V_CORE;
-    }
-
-    private static boolean isCanInit(Context base){
-        return !AppUtil.getAppName(base).equals(base.getPackageName() + SERVER_PROCESS_NAME);
     }
 
     /**

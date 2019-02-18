@@ -21,8 +21,14 @@
 ```
 
 ## 使用
-
-##### 1. 在Application的attachBaseContext方法中初始化
+##### 1. 在app的build.gradle文件中配置 `注册中心` 所在的进程名称，我们所有远程服务均是通过注册中心获取
+```
+    defaultConfig {
+        ...
+        manifestPlaceholders = [ V_CMPROCESS_NAME:":vm" ]
+    }
+```
+##### 2. 在Application的attachBaseContext方法中初始化
 ```java
   @Override
   protected void attachBaseContext(Context base) {
@@ -30,7 +36,7 @@
       VCore.init(base);
   }
 ```
-##### 2. 定义对外提供服务功能的接口和实现
+##### 3. 定义对外提供服务功能的接口和实现
    如果注册本地服务，参数以及回调接口没有限制；
    如果注册远程服务，参数类型必须为基本数据类型或者可序列化类型(serializable/parcelable),并且异步回调接口需要使用提供的'IPCCallback`。
 ```java
@@ -40,7 +46,7 @@
      String pay(int count, IPCCallback callBack);
   }
 ```
-##### 3. 注册或者反注册服务，可在任意进程调用；注册的进程本地服务需要在本进程取消注册
+##### 4. 注册或者反注册服务，可在任意进程调用；注册的进程本地服务需要在本进程取消注册
 ```java
   //注册本地 + 远程服务
   VCore.getCore().registerService(IPayManager.class, this);
@@ -52,7 +58,7 @@
   //取消注册本地服务
   VCore.getCore().unregisterLocalService(IPayManager.class);
 ```
-##### 4. 可在任意进程通过接口类型获取服务调用
+##### 5. 可在任意进程通过接口类型获取服务调用
 ```java
   IPayManager service = VCore.getCore().getService(IPayManager.class);
   //获取本地服务
@@ -88,7 +94,7 @@
      })
   }
 ```
-##### 5. 事件的发布与订阅
+##### 6. 事件的发布与订阅
 ```java
     //订阅事件   可在任意进程的多个位置订阅
     VCore.getCore().subscribe("key", new EventCallback() {
