@@ -4,7 +4,10 @@ package com.cmprocess.ipc;
 import com.cmprocess.ipc.helper.ipcbus.IPCBus;
 import com.cmprocess.ipc.helper.ipcbus.IPCSingleton;
 
-import android.support.v4.util.ArrayMap;
+import android.util.ArrayMap;
+
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 
 /**
@@ -17,9 +20,9 @@ final class VManager {
 
     private static final VManager sVM = new VManager();
 
-    private ArrayMap<Class,IPCSingleton> mIPCSingletonArrayMap = new ArrayMap<>();
+    private ConcurrentHashMap<Class,IPCSingleton> mIPCSingletonArrayMap = new ConcurrentHashMap<>();
 
-    public static  VManager get() {
+    public static VManager get() {
         return sVM;
     }
 

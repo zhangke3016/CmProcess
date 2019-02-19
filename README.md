@@ -18,15 +18,7 @@ A more convenient solution for cross-process communication in Android.No need to
 ##### 2. Add the dependency
 ```groovy
     dependencies {
-        implementation 'com.github.zhangke3016:CmProcess:1.0.5'
-    }
-```
- If there is already v7 package with your project，this way：
-```groovy
-    dependencies {
-        implementation ('com.github.zhangke3016:CmProcess:1.0.5') {
-            exclude group: 'com.android.support'
-        }    
+        implementation 'com.github.zhangke3016:CmProcess:1.0.6'
     }
 ```
 ## Use

@@ -1,13 +1,13 @@
 package com.cmprocess.ipc.client.ipc;
 
 import com.cmprocess.ipc.client.core.VirtualCore;
+import com.cmprocess.ipc.helper.compat.BundleCompat;
 import com.cmprocess.ipc.server.IServiceFetcher;
 
 import android.content.Context;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.RemoteException;
-import android.support.v4.app.BundleCompat;
 
 /**
  * @author zk

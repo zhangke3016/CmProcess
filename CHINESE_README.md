@@ -16,15 +16,7 @@
 ##### 2. 在app的build里添加依赖
 ```groovy
     dependencies {
-        implementation 'com.github.zhangke3016:CmProcess:1.0.5'
-    }
-```
-如与项目已有v7包冲突，如此引入：
-```groovy
-    dependencies {
-        implementation ('com.github.zhangke3016:CmProcess:1.0.5') {
-            exclude group: 'com.android.support'
-        }    
+        implementation 'com.github.zhangke3016:CmProcess:1.0.6'
     }
 ```
 ## 使用

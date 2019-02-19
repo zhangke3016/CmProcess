@@ -3,8 +3,8 @@ package com.cmprocess.ipc.server;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.RemoteException;
-import android.support.v4.util.ArrayMap;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -15,9 +15,9 @@ import java.util.Map;
  */
 public class ServiceCache {
 
-    private static final Map<String, IBinder> sCache = new ArrayMap<>(5);
-    private static final Map<String, IBinder> sEventCache = new ArrayMap<>(5);
-    private static final Map<String, Object> sLocalCache = new ArrayMap<>(5);
+    private static final Map<String, IBinder> sCache = new HashMap<>(5);
+    private static final Map<String, IBinder> sEventCache = new HashMap<>(5);
+    private static final Map<String, Object> sLocalCache = new HashMap<>(5);
 
     public static synchronized void addService(String name, IBinder service) {
         sCache.put(name, service);
