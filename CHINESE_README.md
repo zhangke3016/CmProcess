@@ -1,4 +1,4 @@
-# CmProcess [![platform](https://img.shields.io/badge/platform-android-brightgreen.svg)](https://developer.android.com/index.html)
+# CmProcess [![platform](https://img.shields.io/badge/platform-android-brightgreen.svg)](https://developer.android.com/index.html)   <img src="https://img.shields.io/github/license/zhangke3016/CmProcess.svg"/> <img src="https://img.shields.io/badge/Android-1.0.6-blue.svg" />
 
 更方便更简洁的Android进程通信方案，无需进行bindService()操作，不用定义Service，也不需要定义aidl。
 支持IPC级的Callback，并且支持跨进程的事件总线。
