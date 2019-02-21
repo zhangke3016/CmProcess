@@ -1,4 +1,5 @@
-# CmProcess [![platform](https://img.shields.io/badge/platform-android-brightgreen.svg)](https://developer.android.com/index.html)   <img src="https://img.shields.io/github/license/zhangke3016/CmProcess.svg"/> <img src="https://img.shields.io/badge/Android-1.0.6-blue.svg" />
+![CmProcess](pic/1.png)
+# [![platform](https://img.shields.io/badge/platform-android-brightgreen.svg)](https://developer.android.com/index.html)   <img src="https://img.shields.io/github/license/zhangke3016/CmProcess.svg"/> <img src="https://img.shields.io/badge/Android-1.0.6-blue.svg" />
 
 A more convenient solution for cross-process communication in Android.No need to use aidl.
 
