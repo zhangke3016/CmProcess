@@ -114,4 +114,10 @@
     //取消订阅 
     VCore.getCore().unsubscribe("key");
 ```
+### About me
 
+A Android Developer in ShenZhen.
+
+【[**我的简书地址**](http://www.jianshu.com/users/3c751e06dc32/latest_articles)】
+
+【[**我的CSDN地址**](http://blog.csdn.net/zhangke3016)】
