@@ -38,7 +38,7 @@
 ```
 ##### 2. 定义对外提供服务功能的接口和实现
    如果注册本地服务，参数以及回调接口没有限制；
-   如果注册远程服务，参数类型必须为基本数据类型或者可序列化类型(serializable/parcelable),并且异步回调接口需要使用提供的'IPCCallback`。
+   如果注册远程服务，参数类型必须为基本数据类型或者可序列化类型(serializable/parcelable),并且异步回调接口需要使用提供的`IPCCallback`。
 ```java
   public interface IPayManager {
      String pay(int count);
