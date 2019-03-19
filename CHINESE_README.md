@@ -48,12 +48,15 @@
 ```
 ##### 3. 注册或者反注册服务，可在任意进程调用；注册的进程本地服务需要在本进程取消注册
 ```java
+   
+   //本进程注册  本进程+其他进程都使用： 
   //注册本地 + 远程服务
   VCore.getCore().registerService(IPayManager.class, this);
   //取消注册本地 + 远程服务
   VCore.getCore().unregisterService(IPayManager.class);
   
-  //注册本地服务
+  //本进程注册 仅在本进程使用：      
+  //注册本地服务，此时没有跨进程使用，无需考虑数据类型限制
   VCore.getCore().registerLocalService(IPayManager.class, this);
   //取消注册本地服务
   VCore.getCore().unregisterLocalService(IPayManager.class);
