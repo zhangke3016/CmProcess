@@ -96,14 +96,16 @@ A more convenient solution for cross-process communication in Android.No need to
 ```
 ##### 5. Event subscription and post
 ```java
-    VCore.getCore().subscribe("key", new EventCallback() {
+   //need strong reference eventCallback
+   EventCallback eventCallback = new EventCallback() {
         @Override
         public void onEventCallBack(Bundle event) {
             //main thread
             String name = event.getString("name");
             Log.e("TAG", "onEventCallBack: " + name + " " + (Looper.myLooper() == Looper.getMainLooper()));
         }
-    });
+    }
+    VCore.getCore().subscribe("key", eventCallback);
     
     //post:
     Bundle bundle = new Bundle();
