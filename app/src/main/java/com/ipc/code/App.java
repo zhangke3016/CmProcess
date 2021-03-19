@@ -22,9 +22,16 @@ import android.util.Log;
  */
 public class App extends Application {
 
+    static App mApp;
+
+    public static App getApp() {
+        return mApp;
+    }
+
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
+        mApp = this;
         VCore.init(base);
 
     }

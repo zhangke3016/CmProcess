@@ -45,8 +45,8 @@ public class VCore {
         if (service != null && o != null){
             return this;
         }
-        IPCBus.registerLocal(interfaceClass,server);
-        IPCBus.register(interfaceClass,server);
+        IPCBus.registerLocal(interfaceClass, server);
+        IPCBus.register(interfaceClass, server);
         return this;
     }
 

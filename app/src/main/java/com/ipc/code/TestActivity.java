@@ -30,9 +30,9 @@ public class TestActivity extends AppCompatActivity implements EventCallback {
                 @Override
                 public void onSucceed(Bundle result) {
                     textview.setText(result.getString("pay"));
-                    Bundle bundle = new Bundle();
+                    final Bundle bundle = new Bundle();
                     bundle.putString("name", "DoDo");
-                    VCore.getCore().post("key",bundle);
+                    VCore.getCore().post("key", bundle);
                 }
 
                 @Override
@@ -53,6 +53,6 @@ public class TestActivity extends AppCompatActivity implements EventCallback {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        VCore.getCore().unsubscribe("key");
+        VCore.getCore().unsubscribe(this);
     }
 }
