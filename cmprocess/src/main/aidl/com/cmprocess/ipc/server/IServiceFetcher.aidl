@@ -9,5 +9,5 @@ interface IServiceFetcher {
     void addEventListener(java.lang.String name, android.os.IBinder service);
     void removeService(java.lang.String name);
     void removeEventListener(java.lang.String name);
-    void post(String key,in Bundle result);
+    void post(String processName, String key,in Bundle result);
 }

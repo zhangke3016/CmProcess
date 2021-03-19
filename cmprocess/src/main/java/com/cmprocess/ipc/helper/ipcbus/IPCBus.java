@@ -63,8 +63,13 @@ public class IPCBus {
        return (T) sCache.queryLocal(interfaceClass.getName());
     }
 
-    public static void post(String key,Bundle event) {
+    public static void post(String key, Bundle event) {
         checkInitialized();
-        sCache.post(key,event);
+        sCache.post(null, key, event);
+    }
+
+    public static void post(String processName, String key, Bundle event) {
+        checkInitialized();
+        sCache.post(processName, key, event);
     }
 }

@@ -1,6 +1,6 @@
 package com.cmprocess.ipc.client.ipc;
 
-import com.cmprocess.ipc.client.core.VirtualCore;
+import com.cmprocess.ipc.client.core.IPCCore;
 import com.cmprocess.ipc.helper.compat.ContentProviderCompat;
 
 import android.content.Context;
@@ -19,7 +19,7 @@ import java.io.Serializable;
 public class ProviderCall {
 
     public static Bundle call(String authority, String methodName, String arg, Bundle bundle) {
-        return call(authority, VirtualCore.get().getContext(), methodName, arg, bundle);
+        return call(authority, IPCCore.get().getContext(), methodName, arg, bundle);
     }
 
     public static Bundle call(String authority, Context context, String method, String arg, Bundle bundle) {

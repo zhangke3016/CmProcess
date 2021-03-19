@@ -1,12 +1,11 @@
 package com.cmprocess.ipc;
 
 
-import com.cmprocess.ipc.client.core.VirtualCore;
+import com.cmprocess.ipc.client.core.IPCCore;
 import com.cmprocess.ipc.client.ipc.ServiceManagerNative;
 import com.cmprocess.ipc.event.EventCallback;
 import com.cmprocess.ipc.event.EventCenter;
 import com.cmprocess.ipc.helper.ipcbus.IPCBus;
-import com.cmprocess.ipc.helper.utils.AppUtil;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -23,7 +22,7 @@ public class VCore {
     private static final VCore V_CORE = new VCore();
 
     public static void init(Context context){
-        VirtualCore.get().startup(context);
+        IPCCore.get().startup(context);
     }
 
     public static VCore getCore(){
@@ -38,7 +37,7 @@ public class VCore {
      */
     public VCore registerService(Class<?> interfaceClass, Object server){
 
-        if (VirtualCore.get().getContext() == null){
+        if (IPCCore.get().getContext() == null){
             return this;
         }
         Object o = IPCBus.getLocalService(interfaceClass);
@@ -142,9 +141,17 @@ public class VCore {
      * @param key
      * @param event
      */
-    public void post(String key,Bundle event){
-        IPCBus.post(key,event);
+    public void post(String key, Bundle event){
+        IPCBus.post(key, event);
     }
 
+    /**
+     * send data to processName
+     * @param key
+     * @param event
+     */
+    public void post(String processName, String key, Bundle event){
+        IPCBus.post(processName, key, event);
+    }
 
 }

@@ -6,7 +6,6 @@ import com.cmprocess.ipc.event.EventReceiver;
 import com.cmprocess.ipc.helper.ipcbus.IPCBus;
 import com.cmprocess.ipc.helper.ipcbus.IServerCache;
 import com.cmprocess.ipc.helper.utils.AppUtil;
-import com.cmprocess.ipc.server.IEventReceiver;
 import com.cmprocess.ipc.server.ServiceCache;
 
 import android.content.Context;
@@ -21,21 +20,21 @@ import android.os.Process;
  * @Description：
  * @other 修改历史：
  */
-public final class VirtualCore {
+public final class IPCCore {
 
 
-    private static final String TAG = VirtualCore.class.getSimpleName();
+    private static final String TAG = IPCCore.class.getSimpleName();
 
-    private static VirtualCore gCore = new VirtualCore();
+    private static IPCCore gCore = new IPCCore();
 
     private boolean isStartUp;
 
     private Context context;
 
-    private VirtualCore() {
+    private IPCCore() {
     }
 
-    public static VirtualCore get() {
+    public static IPCCore get() {
         return gCore;
     }
 
@@ -82,8 +81,8 @@ public final class VirtualCore {
                 }
 
                 @Override
-                public void post(String key,Bundle bundle) {
-                    ServiceManagerNative.post(key,bundle);
+                public void post(String processName, String key,Bundle bundle) {
+                    ServiceManagerNative.post(processName, key,bundle);
                 }
             });
             ServiceManagerNative.addEventListener(AppUtil.getProcessName(context, Process.myPid()), EventReceiver.getInstance());

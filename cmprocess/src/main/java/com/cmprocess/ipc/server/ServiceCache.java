@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.os.RemoteException;
 
+import android.text.TextUtils;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -55,17 +56,32 @@ public class ServiceCache {
         return sEventCache.get(name);
     }
 
-    public static synchronized void sendEvent(String key,Bundle event){
+    public static synchronized void sendEvent(String processName, String key,Bundle event){
         if (sEventCache.isEmpty()){
             return;
         }
-        for (IBinder binder:sEventCache.values()){
-            IEventReceiver eventReceiver = IEventReceiver.Stub.asInterface(binder);
-            try {
-                eventReceiver.onEventReceive(key, event);
-            } catch (RemoteException e) {
-                e.printStackTrace();
+        if (!TextUtils.isEmpty(processName)) {
+            IBinder binder = sEventCache.get(processName);
+            if (binder == null) {
+                return;
             }
+            onEventReceive(key, event, binder);
+        } else {
+            for (IBinder binder:sEventCache.values()){
+                onEventReceive(key, event, binder);
+            }
+        }
+    }
+
+    /**
+     * 处理接收事件
+     */
+    private static void onEventReceive(String key, Bundle event, IBinder binder) {
+        IEventReceiver eventReceiver = IEventReceiver.Stub.asInterface(binder);
+        try {
+            eventReceiver.onEventReceive(key, event);
+        } catch (RemoteException e) {
+            e.printStackTrace();
         }
     }
 }

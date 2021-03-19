@@ -13,7 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
-public class MainActivity extends AppCompatActivity implements IPayManager{
+public class MainActivity extends AppCompatActivity implements IPayManager, EventCallback {
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
@@ -25,12 +25,7 @@ public class MainActivity extends AppCompatActivity implements IPayManager{
         IPayManager service = VCore.getCore().getLocalService(IPayManager.class);
         Log.e("TAG", "onCreate: " + (service == null));
 
-        VCore.getCore().subscribe("key", new EventCallback() {
-            @Override
-            public void onEventCallBack(Bundle event) {
-            Log.e("TAG", "onEventCallBack: "+(Looper.myLooper() == Looper.getMainLooper()) );
-            }
-        });
+        VCore.getCore().subscribe("key", this);
         startActivity(new Intent(this,TestActivity.class));
     }
 
@@ -57,4 +52,14 @@ public class MainActivity extends AppCompatActivity implements IPayManager{
         }).start();
     }
 
+    @Override
+    public void onEventCallBack(Bundle event) {
+        Log.e("TAG", "onEventCallBack: "+(Looper.myLooper() == Looper.getMainLooper()) );
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        VCore.getCore().unsubscribe("key");
+    }
 }

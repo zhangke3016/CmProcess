@@ -16,7 +16,7 @@ import android.widget.TextView;
  * @Description：
  * @other 修改历史：
  */
-public class TestActivity extends AppCompatActivity {
+public class TestActivity extends AppCompatActivity implements EventCallback {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,19 +42,17 @@ public class TestActivity extends AppCompatActivity {
             });
         }
 
-        VCore.getCore().subscribe("key", new EventCallback() {
-            @Override
-            public void onEventCallBack(Bundle event) {
-                String name = event.getString("name");
-                Log.e("TAG", "onEventCallBack: " + name + " " + (Looper.myLooper() == Looper.getMainLooper()));
-            }
-        });
-        VCore.getCore().subscribe("key", new EventCallback() {
-            @Override
-            public void onEventCallBack(Bundle event) {
-                String name = event.getString("name");
-                Log.e("TAG", "onEventCallBack2: " + name + " " + (Looper.myLooper() == Looper.getMainLooper()));
-            }
-        });
+        VCore.getCore().subscribe("key", this);
+    }
+
+    @Override
+    public void onEventCallBack(Bundle event) {
+        String name = event.getString("name");
+        Log.e("TAG", "onEventCallBack: " + name + " " + (Looper.myLooper() == Looper.getMainLooper()));
+    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        VCore.getCore().unsubscribe("key");
     }
 }

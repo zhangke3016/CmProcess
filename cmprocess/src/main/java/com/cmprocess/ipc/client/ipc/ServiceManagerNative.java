@@ -1,6 +1,6 @@
 package com.cmprocess.ipc.client.ipc;
 
-import com.cmprocess.ipc.client.core.VirtualCore;
+import com.cmprocess.ipc.client.core.IPCCore;
 import com.cmprocess.ipc.helper.compat.BundleCompat;
 import com.cmprocess.ipc.server.IServiceFetcher;
 
@@ -26,10 +26,10 @@ public class ServiceManagerNative {
     private static IServiceFetcher getServiceFetcher() {
         if (sFetcher == null || !sFetcher.asBinder().isBinderAlive()) {
             synchronized (ServiceManagerNative.class) {
-                Context context = VirtualCore.get().getContext();
+                Context context = IPCCore.get().getContext();
                 Bundle response = new ProviderCall.Builder(context, SERVICE_CP_AUTH).methodName("@").call();
                 if (response != null) {
-                    IBinder binder = BundleCompat.getBinder(response, "_VM_|_binder_");
+                    IBinder binder = BundleCompat.getBinder(response, "_core_binder_");
                     linkBinderDied(binder);
                     sFetcher = IServiceFetcher.Stub.asInterface(binder);
                 }
@@ -72,11 +72,11 @@ public class ServiceManagerNative {
         }
     }
 
-    public static void post(String key,Bundle bundle) {
+    public static void post(String processName, String key,Bundle bundle) {
         IServiceFetcher fetcher = getServiceFetcher();
         if (fetcher != null) {
             try {
-                fetcher.post(key,bundle);
+                fetcher.post(processName, key,bundle);
             } catch (RemoteException e) {
                 e.printStackTrace();
             }

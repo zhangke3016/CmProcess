@@ -16,5 +16,5 @@ public interface IServerCache {
     void removeLocalService(String serverName);
     IBinder query(String serverName);
     Object queryLocal(String serverName);
-    void post(String key,Bundle bundle);
+    void post(String processName, String key,Bundle bundle);
 }

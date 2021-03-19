@@ -3,11 +3,7 @@ package com.cmprocess.ipc.event;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.SparseArray;
-
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -22,7 +18,7 @@ public class EventCenter {
 
     private static final Handler sHandler = new Handler(Looper.getMainLooper());
 
-    private static ConcurrentHashMap<String, List<WeakReference<EventCallback>>> subscribers = new ConcurrentHashMap<>();
+    private static ConcurrentHashMap<String, List<EventCallback>> subscribers = new ConcurrentHashMap<>();
 
     private EventCenter() {}
 
@@ -32,11 +28,11 @@ public class EventCenter {
      * @param callback
      */
     public static synchronized void subscribe(String key, EventCallback callback) {
-        List<WeakReference<EventCallback>> eventCallbacks = subscribers.get(key);
+        List<EventCallback> eventCallbacks = subscribers.get(key);
         if (eventCallbacks == null){
             eventCallbacks = new ArrayList<>(5);
         }
-        eventCallbacks.add(new WeakReference<EventCallback>(callback));
+        eventCallbacks.add(callback);
         subscribers.put(key, eventCallbacks);
     }
 
@@ -53,11 +49,11 @@ public class EventCenter {
      * @param callback
      */
     public static synchronized void unsubscribe(EventCallback callback) {
-        for (Map.Entry<String, List<WeakReference<EventCallback>>> entry : subscribers.entrySet()) {
-            List<WeakReference<EventCallback>> listeners = entry.getValue();
-            for (WeakReference<EventCallback> weakRef : listeners) {
-                if (callback == weakRef.get()) {
-                    listeners.remove(weakRef);
+        for (Map.Entry<String, List<EventCallback>> entry : subscribers.entrySet()) {
+            List<EventCallback> listeners = entry.getValue();
+            for (EventCallback cb : listeners) {
+                if (callback == cb) {
+                    listeners.remove(cb);
                     break;
                 }
             }
@@ -69,11 +65,10 @@ public class EventCenter {
             return;
         }
         if (key != null) {
-            List<WeakReference<EventCallback>> messageCallbacks = subscribers.get(key);
+            List<EventCallback> messageCallbacks = subscribers.get(key);
             if (messageCallbacks != null) {
                 for (int i = messageCallbacks.size() - 1; i >= 0; --i) {
-                    final WeakReference<EventCallback> eventCallback = messageCallbacks.get(i);
-                    final EventCallback ec = eventCallback.get();
+                    final EventCallback ec = messageCallbacks.get(i);
                     if (ec != null){
                         sHandler.post(new Runnable() {
                             @Override

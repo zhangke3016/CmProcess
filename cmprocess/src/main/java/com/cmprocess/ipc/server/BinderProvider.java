@@ -1,11 +1,10 @@
 package com.cmprocess.ipc.server;
 
-import com.cmprocess.ipc.client.core.VirtualCore;
+import com.cmprocess.ipc.client.core.IPCCore;
 import com.cmprocess.ipc.helper.compat.BundleCompat;
 
 import android.content.ContentProvider;
 import android.content.ContentValues;
-import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -24,9 +23,7 @@ public class BinderProvider extends ContentProvider{
 
     @Override
     public boolean onCreate() {
-        Context context = getContext();
-        DaemonService.startup(context);
-        if (!VirtualCore.get().isStartup()) {
+        if (!IPCCore.get().isStartup()) {
             return true;
         }
         return true;
@@ -66,7 +63,7 @@ public class BinderProvider extends ContentProvider{
     public Bundle call(String method,  String arg,  Bundle extras) {
         if ("@".equals(method)) {
             Bundle bundle = new Bundle();
-            BundleCompat.putBinder(bundle, "_VM_|_binder_", mServiceFetcher);
+            BundleCompat.putBinder(bundle, "_core_binder_", mServiceFetcher);
             return bundle;
         }
         return null;
@@ -110,9 +107,9 @@ public class BinderProvider extends ContentProvider{
         }
 
         @Override
-        public void post(String key,Bundle result) throws RemoteException {
+        public void post(String processName, String key,Bundle result) throws RemoteException {
             if (result != null){
-                ServiceCache.sendEvent(key,result);
+                ServiceCache.sendEvent(processName, key,result);
             }
         }
     }
